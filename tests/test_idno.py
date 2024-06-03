@@ -1,6 +1,6 @@
 import pytest
 
-from ssrq_utils.idno import model
+from ssrq_utils.idno import filter, model
 
 
 @pytest.mark.parametrize(
@@ -67,3 +67,20 @@ def test_exclusive_fields_set():
                 prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1, case=1, special="lit"
             ),
         )  # type: ignore
+
+
+def test_get_main_idnos():
+    inputs = [
+        model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1),
+        model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=0, num=1),
+        model.IDNO(
+            prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=2, num=1
+        ),  # should be filtered
+        model.IDNO(prefix="SDS", kanton="NE", volume="4", case=1, doc=0, num=1),
+        model.IDNO(prefix="SDS", kanton="NE", volume="4", opening="1.A", doc=1, num=1),
+    ]
+
+    filtered_idnos = filter.get_main_idnos(inputs)
+
+    assert filtered_idnos is not None
+    assert len(filtered_idnos) == len(inputs) - 1
