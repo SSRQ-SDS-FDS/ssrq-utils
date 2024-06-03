@@ -30,6 +30,13 @@ def test_urn_model_validate_string_with_casting():
     assert isinstance(model_instance.idno, idno_model.IDNO)
 
 
+def test_urn_model_can_is_hashable_if_casting_is_false():
+    model_instance = model.URN.model_validate_string(
+        "urn:ssrq:SSRQ-SG-III_4-58-1", cast_to_idno=False
+    )
+    assert isinstance(hash(model_instance), int)
+
+
 def test_urn_model_validate_string_fails_for_invalid_urn():
     with pytest.raises(ValueError):  # noqa: PT011
         model.URN.model_validate_string("urn:ssrq:SSRQ-SG-III_4-58-1.0-1", urn_prefix="urn:foo:")

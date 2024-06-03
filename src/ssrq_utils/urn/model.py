@@ -1,6 +1,6 @@
 from typing import Self
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from ssrq_utils import idno as idno_utils
 
@@ -10,6 +10,7 @@ class URN(BaseModel):
 
     idno: idno_utils.model.IDNO | str = Field(description="The IDNO of the URN", frozen=True)
     fragment: str | None = Field(default=None, description="The fragment of the URN", frozen=True)
+    model_config = ConfigDict(frozen=True)
 
     @classmethod
     def model_validate_string(
@@ -20,6 +21,8 @@ class URN(BaseModel):
         fragment_sep: str = "#",
     ) -> Self:
         """Validate an urn string and return an instance of the model.
+
+        Note: The Hashing of the model is only possible if the idno is not cast to an IDNO instance.
 
         Args:
         ----
