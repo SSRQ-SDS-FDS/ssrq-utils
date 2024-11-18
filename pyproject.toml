@@ -1,29 +1,25 @@
-[tool.poetry]
+[project]
 name = "ssrq-utils"
 version = "0.1.0"
 description = "Various utilities bundled as a python package."
-authors = ["Bpolitycki <bastian.politycki@unisg.ch>"]
-license = "MIT"
 readme = "README.md"
-packages = [{ include = "ssrq_utils", from = "src" }]
+authors = [{ name = "Bpolitycki", email = "bastian.politycki@unisg.ch" }]
+requires-python = ">=3.11"
+dependencies = ["cachebox>=4.3.1", "pydantic>=2.9.2"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-pydantic = "^2.7.2"
+[dependency-groups]
+dev = [
+    "commitizen>=3.31.0",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.3",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.7.4",
+]
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.4.6"
-pytest = "^8.2.1"
-pytest-cov = "^5.0.0"
-poethepoet = "^0.26.1"
-mypy = "^1.10.0"
-commitizen = "^3.27.0"
-pre-commit = "^3.7.1"
-
-[tool.poe.tasks]
-format = "ruff format ."
-lint = [{ cmd = "ruff check . --fix" }, { cmd = "mypy src" }]
-test = "pytest --cov=src/ssrq_utils --cov-fail-under=95"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -78,13 +74,9 @@ lint.select = [
     "W",
     "YTT",
 ]
+lint.unfixable = ["F401", "F841"]
 src = ["src", "tests"]
 target-version = "py311"
-lint.unfixable = ["F401", "F841"]
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
