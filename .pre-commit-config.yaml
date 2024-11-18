@@ -53,7 +53,7 @@ repos:
       - id: ruff
         name: ruff
         entry: ruff
-        args: ["--extend-fixable=F401,F841", "--fix-only"]
+        args: ["check", "--extend-fixable=F401,F841", "--fix-only"]
         require_serial: true
         language: system
         types: [python]
