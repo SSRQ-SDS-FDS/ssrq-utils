@@ -6,7 +6,7 @@ from ssrq_utils import idno as idno_utils
 
 
 class URN(BaseModel):
-    """A A model to represent SSRQ-urns."""
+    """A model to represent SSRQ-urns."""
 
     idno: idno_utils.model.IDNO | str = Field(description="The IDNO of the URN", frozen=True)
     fragment: str | None = Field(default=None, description="The fragment of the URN", frozen=True)
