@@ -4,7 +4,7 @@ Various utilities for the SSRQ project e.g. for parsing IDNOs or handling `urn:s
 
 ## Installation
 
-This project uses `poetry` for dependency managment and `poethepoet` for running tasks (defined as dev dependency). After installation everything (`poetry install`) run `poe` to see available tasks.
+This project uses `uv` for dependency managment and `just` for running tasks (defined as dev dependency). After installing everything (`uv sync --all-extras --dev`) run `just help` to see available tasks.
 
 ## Authors
 
