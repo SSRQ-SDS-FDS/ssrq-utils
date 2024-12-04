@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from ssrq_utils.i18n.model import I18nMap
+from ssrq_utils.i18n.text import normalize_punctuation_marks
 from ssrq_utils.i18n.translator import Translator
 from ssrq_utils.lang.display import Lang
 
@@ -60,3 +61,15 @@ def test_translator_can_be_created(translation_file: Path):
 def test_translator_can_translate(translation_file: Path, lang: Lang, key: str, expected: str):
     translator = Translator(translation_file)
     assert translator.translate(lang, key) == expected
+
+
+@pytest.mark.parametrize(
+    ("lang", "text", "expected"),
+    [
+        (Lang.DE, "foo: bar", "foo: bar"),
+        (Lang.EN, "foo: bar", "foo: bar"),
+        (Lang.FR, "foo: bar", "foo : bar"),
+    ],
+)
+def test_normalize_punctuation_mark(lang: Lang, text: str, expected: str):
+    assert normalize_punctuation_marks(text, lang) == expected
