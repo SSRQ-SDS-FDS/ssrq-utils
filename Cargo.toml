@@ -1,0 +1,13 @@
+[package]
+name = "pyferuca"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "pyferuca"
+path = "lib/uca.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+feruca = "0.10.1"
+pyo3 = "0.23.3"
