@@ -20,14 +20,19 @@ def get_main_idnos(idnos: Sequence[IDNO]) -> Sequence[IDNO] | None:
         The filtered sequence of IDNOs.
 
     """
-    return (
-        result
-        if (
-            result := [
-                idno
-                for idno in idnos
-                if not (idno.case is not None and idno.doc is not None and idno.doc > 0)
-            ]
-        )
-        else None
-    )
+    return result if (result := [idno for idno in idnos if idno_is_main(idno)]) else None
+
+
+def idno_is_main(idno: IDNO) -> bool:
+    """Check if an IDNO represents a 'main document'.
+
+    Args:
+    ----
+        idno: The IDNO to check.
+
+    Returns:
+    -------
+        True if the IDNO represents a 'main document'.
+
+    """
+    return not (idno.case is not None and idno.doc is not None and idno.doc > 0)
