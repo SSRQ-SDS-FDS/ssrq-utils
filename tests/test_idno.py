@@ -33,6 +33,20 @@ def test_idno_model_validate_string(idno: str, expected: model.IDNO):
 @pytest.mark.parametrize(
     ("idno", "expected"),
     [
+        (model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1), 58.0),
+        (model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=0, num=1), 2.0),
+        (model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=1, num=1), 2.1),
+        (model.IDNO(prefix="SDS", kanton="NE", volume="4", case=1, doc=0, num=1), 1.0),
+        (model.IDNO(prefix="SDS", kanton="NE", volume="4", opening="1.A", doc=1, num=1), 1),
+    ],
+)
+def test_sort_key(idno: model.IDNO, expected: float):
+    assert idno.sort_key == expected
+
+
+@pytest.mark.parametrize(
+    ("idno", "expected"),
+    [
         (
             model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1),
             "SSRQ-SG-III_4-58-1",

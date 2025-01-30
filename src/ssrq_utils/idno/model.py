@@ -1,7 +1,8 @@
 import re
+from functools import cached_property
 from typing import Self, TypeVar
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, computed_field, model_validator
 
 SCHEMA = (
     r"^"
@@ -35,6 +36,21 @@ class IDNO(BaseModel):
     special: str | None = Field(
         default=None, description="Marker for a special document like an introduction", frozen=True
     )
+
+    @computed_field  # type: ignore[misc]
+    @cached_property
+    def sort_key(self) -> float:
+        """Get a key to sort the ID.
+
+        Returns
+        -------
+            A float key to sort the IDNO.
+
+        """
+        if self.case and self.doc and self.doc > 0:
+            return float(f"{self.case}.{self.doc}")
+
+        return float(next(filter(None, (self.case, self.doc, 99999))))
 
     @model_validator(mode="after")
     def check_exclusive_fields(self) -> Self:
@@ -75,6 +91,16 @@ class IDNO(BaseModel):
             num=check_and_cast(m.group("num"), caster=int),
             special=check_and_cast(m.group("special"), caster=str),
         )
+
+    def is_main(self) -> bool:
+        """Check if an IDNO represents a 'main document'.
+
+        Returns
+        -------
+            True if the IDNO represents a 'main document'.
+
+        """
+        return not (self.case is not None and self.doc is not None and self.doc > 0)
 
     def __repr__(self) -> str:
         """Produce the original string of the IDNO."""
