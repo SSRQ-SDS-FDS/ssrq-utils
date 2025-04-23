@@ -47,6 +47,19 @@ def test_sort_key(idno: model.IDNO, expected: float):
 @pytest.mark.parametrize(
     ("idno", "expected"),
     [
+        (model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1), "III/4"),
+        (model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=0, num=1), "I/2/8"),
+        (model.IDNO(prefix="SDS", kanton="NE", volume="4", case=1, doc=0, num=1), "4"),
+        (model.IDNO(prefix="SDS", kanton="VD", volume="D_1", doc=1, num=1), "D 1"),
+    ],
+)
+def test_print_volume(idno: model.IDNO, expected: str):
+    assert idno.print_volume() == expected
+
+
+@pytest.mark.parametrize(
+    ("idno", "expected"),
+    [
         (
             model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1),
             "SSRQ-SG-III_4-58-1",

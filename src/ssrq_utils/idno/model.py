@@ -102,6 +102,28 @@ class IDNO(BaseModel):
         """
         return not (self.case is not None and self.doc is not None and self.doc > 0)
 
+    def print_volume(self) -> str:
+        """Format the volume for printing (human readable version).
+
+        Returns
+        -------
+            A human readable version of the volume.
+
+        """
+        volume_parts = self.volume.split("_")
+        output = ""
+
+        for i, part in enumerate(volume_parts):
+            if i + 1 == len(volume_parts):
+                output += part
+                continue
+            if re.search(r"[IVX0-9]+", part):
+                output += f"{part}/"
+                continue
+            output += f"{part} "
+
+        return output
+
     def __repr__(self) -> str:
         """Produce the original string of the IDNO."""
         start = f"{self.prefix}-{self.kanton}-{self.volume}"
