@@ -52,6 +52,23 @@ class IDNO(BaseModel):
 
         return float(next(filter(None, (self.case, self.doc, 99999))))
 
+    @computed_field  # type: ignore[misc]
+    @cached_property
+    def normalized_sort_key(self) -> str:
+        """Get a normalized key to sort the ID.
+
+        The key has the form "xxxxx.xxxxx".
+
+        Returns
+        -------
+            str: Zero-padded string key for sorting the ID.
+
+        """
+        if self.case and self.doc and self.doc > 0:
+            return f"{self.case:05d}.{self.doc:05d}"
+
+        return f"{next(filter(None, (self.case, self.doc, 99999))):05d}.00000"
+
     @model_validator(mode="after")
     def check_exclusive_fields(self) -> Self:
         """Validate that parts of the idno are exclusive (should be ensured by the RegEx already)."""
