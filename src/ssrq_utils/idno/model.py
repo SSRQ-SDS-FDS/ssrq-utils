@@ -117,7 +117,11 @@ class IDNO(BaseModel):
             True if the IDNO represents a 'main document'.
 
         """
-        return not (self.case is not None and self.doc is not None and self.doc > 0)
+        return not (
+            self.doc is not None
+            and self.doc > 0
+            and (self.case is not None or self.opening is not None)
+        )
 
     def print_volume(self) -> str:
         """Format the volume for printing (human readable version).

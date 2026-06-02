@@ -119,6 +119,29 @@ def test_exclusive_fields_set():
         )  # type: ignore
 
 
+@pytest.mark.parametrize(
+    ("idno", "expected"),
+    [
+        (model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1), True),
+        (
+            model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=0, num=1),
+            True,
+        ),
+        (
+            model.IDNO(prefix="SSRQ", kanton="FR", volume="I_2_8", case=2, doc=2, num=1),
+            False,
+        ),
+        (model.IDNO(prefix="SDS", kanton="NE", volume="4", case=1, doc=0, num=1), True),
+        (
+            model.IDNO(prefix="SDS", kanton="NE", volume="4", opening="1.A", doc=1, num=1),
+            False,
+        ),
+    ],
+)
+def test_is_main(idno: model.IDNO, expected: bool):
+    assert idno.is_main() is expected
+
+
 def test_get_main_idnos():
     inputs = [
         model.IDNO(prefix="SSRQ", kanton="SG", volume="III_4", doc=58, num=1),
@@ -133,4 +156,4 @@ def test_get_main_idnos():
     filtered_idnos = filter.get_main_idnos(inputs)
 
     assert filtered_idnos is not None
-    assert len(filtered_idnos) == len(inputs) - 1
+    assert filtered_idnos == [inputs[0], inputs[1], inputs[3]]
