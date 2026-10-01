@@ -1,6 +1,6 @@
 [project]
 name = "ssrq-utils"
-version = "0.8.0"
+version = "0.8.1"
 description = "Various utilities bundled as a python package."
 readme = "README.md"
 authors = [{ name = "Bpolitycki", email = "bastian.politycki@unisg.ch" }]
