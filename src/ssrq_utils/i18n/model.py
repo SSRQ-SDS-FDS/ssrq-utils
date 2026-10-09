@@ -16,12 +16,12 @@ class I18nMap(BaseModel):
     @model_validator(mode="after")
     def check_entries(self) -> Self:
         """Check if the given translations are equals."""
-        lang_keys = self.model_dump().keys()
+        translations = self._filter_elided_keys(cast(dict[str, dict[str, str]], self.model_dump()))
+        lang_keys = translations.keys()
         for lang in lang_keys:
-            defined_translations = cast(dict[str, str], getattr(self, lang)).keys()
+            defined_translations = translations[lang].keys()
             if not all(
-                len(cast(dict[str, str], getattr(self, other_lang).keys()))
-                == len(defined_translations)
+                len(translations[other_lang]) == len(defined_translations)
                 for other_lang in lang_keys
                 if other_lang != lang
             ):
@@ -29,3 +29,24 @@ class I18nMap(BaseModel):
                     f"The given translations for »{lang}« are not equal to the translations of the other languages."
                 )
         return self
+
+    def _filter_elided_keys(
+        self, translations: dict[str, dict[str, str]]
+    ) -> dict[str, dict[str, str]]:
+        """Filter optional elided variants out of each language's translations.
+
+        Create a filtered copy for the completeness check. The original
+        translations, including their elided variants, remain available for lookup.
+
+        Args:
+            translations (dict[str, dict[str, str]]): Translation entries by language.
+
+        Returns:
+            dict[str, dict[str, str]]: The language dictionaries without keys
+                ending in _elided.
+
+        """
+        return {
+            lang: dict(filter(lambda entry: not entry[0].endswith("_elided"), entries.items()))
+            for lang, entries in translations.items()
+        }
