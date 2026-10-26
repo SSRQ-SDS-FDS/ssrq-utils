@@ -3,8 +3,8 @@ name = "ssrq-utils"
 version = "0.9.0"
 description = "Various utilities bundled as a python package."
 readme = "README.md"
-authors = [{ name = "Bpolitycki", email = "bastian.politycki@unisg.ch" }]
-requires-python = ">=3.11"
+authors = [{ name = "Bpolitycki", email = "bastian.politycki@unisg.ch" }, { name = "Christian Sonder", email = "christian.sonder@unisg.ch" }]
+requires-python = ">=3.14.7"
 dependencies = ["cachebox>=4.3.1", "maturin>=1.7.8", "pydantic>=2.9.2"]
 
 [dependency-groups]
