@@ -51,7 +51,7 @@ class Translator:
         with open(translation_source) as f:
             self.translations = I18nMap.model_validate_json(f.read())
 
-    @cachebox.cachedmethod(cachebox.LRUCache(maxsize=128))
+    @cachebox.cached(cachebox.LRUCache(maxsize=128))
     def translate(self, lang: Lang, key: str) -> str:
         """Tranlates the given key to the given language.
 
