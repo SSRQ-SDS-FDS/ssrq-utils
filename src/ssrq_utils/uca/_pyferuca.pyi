@@ -19,7 +19,7 @@ def uca_simple_sort(inputs: Sequence[str]) -> Sequence[str]:
     """
 
 @overload
-def uca_complex_sort(inputs: Sequence[T], method_name: str) -> Sequence[T]:  # noqa: D418
+def uca_complex_sort(inputs: Sequence[T], method_name: str) -> Sequence[T]:
     """Sort a list of objects using the UCA.
 
     Uses the unstable sorting mechanism of the Rust
@@ -37,7 +37,7 @@ def uca_complex_sort(inputs: Sequence[T], method_name: str) -> Sequence[T]:  # n
     """
 
 @overload
-def uca_complex_sort(inputs: Sequence[T], method_name: str, args: tuple[Any] | None) -> Sequence[T]:  # noqa: D418
+def uca_complex_sort(inputs: Sequence[T], method_name: str, args: tuple[Any] | None) -> Sequence[T]:
     """Sort a list of objects using the UCA.
 
     Uses the unstable sorting mechanism of the Rust

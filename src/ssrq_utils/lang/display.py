@@ -10,7 +10,7 @@ class Lang(Enum):
     IT = "it"
 
     @classmethod
-    def from_string(cls, lang: str) -> "Lang":
+    def from_string(cls, lang: str) -> Lang:
         """Create a Lang enum from a string.
 
         If the string is not recognized, the default

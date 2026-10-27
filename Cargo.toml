@@ -1,7 +1,8 @@
 [package]
 name = "pyferuca"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+rust-version = "1.85"
 
 [lib]
 name = "pyferuca"
@@ -10,4 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 feruca = "0.10.1"
-pyo3 = "0.23.3"
+pyo3 = "0.30.1"

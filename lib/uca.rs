@@ -47,7 +47,7 @@ fn uca_complex_sort(
     args: Option<Vec<Py<PyAny>>>,
 ) -> PyResult<Vec<Py<PyAny>>> {
     let mut collator = Collator::default();
-    let mut values: Vec<(String, Py<PyAny>)> = Python::with_gil(|py| {
+    let mut values: Vec<(String, Py<PyAny>)> = Python::attach(|py| {
         objects
             .into_iter()
             .map(|obj| {

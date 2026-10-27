@@ -27,7 +27,7 @@ class Translator:
     _lock = threading.Lock()
     translations: I18nMap
 
-    def __new__(cls, translation_source: Path) -> "Translator":  # noqa: D102
+    def __new__(cls, translation_source: Path) -> Translator:  # noqa: D102
         if cls._instance is None:
             with cls._lock:
                 cls._instance = super().__new__(cls)
@@ -51,7 +51,7 @@ class Translator:
         with open(translation_source) as f:
             self.translations = I18nMap.model_validate_json(f.read())
 
-    @cachebox.cachedmethod(cachebox.LRUCache(maxsize=128))
+    @cachebox.cached(cachebox.LRUCache(maxsize=128))
     def translate(self, lang: Lang, key: str) -> str:
         """Tranlates the given key to the given language.
 
