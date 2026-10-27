@@ -162,7 +162,7 @@ def prefix_translator(tmp_path):
         (Lang.FR, "missing", "Anna Dupont", None, "Unknown key: 'missing' "),
     ],
 )
-def test_translate_before(prefix_translator, lang, key, following, elide, expected):  # noqa: PLR0913
+def test_translate_before(prefix_translator, lang, key, following, *, elide, expected):  # noqa: PLR0913
     assert prefix_translator.translate_before(lang, key, following, elide=elide) == expected
 
 

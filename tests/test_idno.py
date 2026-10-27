@@ -1,6 +1,6 @@
 import pytest
 
-from ssrq_utils.idno import filter, model
+from ssrq_utils.idno import filtering, model
 
 
 @pytest.mark.parametrize(
@@ -153,7 +153,7 @@ def test_get_main_idnos():
         model.IDNO(prefix="SDS", kanton="NE", volume="4", opening="1.A", doc=1, num=1),
     ]
 
-    filtered_idnos = filter.get_main_idnos(inputs)
+    filtered_idnos = filtering.get_main_idnos(inputs)
 
     assert filtered_idnos is not None
     assert filtered_idnos == [inputs[0], inputs[1], inputs[3]]

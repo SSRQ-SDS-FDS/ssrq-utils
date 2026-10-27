@@ -1,3 +1,3 @@
-from ssrq_utils.idno import filter, model
+from ssrq_utils.idno import filtering, model
 
-__all__ = ["filter", "model"]
+__all__ = ["filtering", "model"]

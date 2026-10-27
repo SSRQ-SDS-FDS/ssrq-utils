@@ -1,7 +1,5 @@
 from collections.abc import Sequence
-from typing import Any, TypeVar, overload
-
-T = TypeVar("T", bound=object)
+from typing import Any, overload
 
 def uca_simple_sort(inputs: Sequence[str]) -> Sequence[str]:
     """Sort a list of strings using the UCA.
@@ -19,7 +17,7 @@ def uca_simple_sort(inputs: Sequence[str]) -> Sequence[str]:
     """
 
 @overload
-def uca_complex_sort(inputs: Sequence[T], method_name: str) -> Sequence[T]:
+def uca_complex_sort[T](inputs: Sequence[T], method_name: str) -> Sequence[T]:
     """Sort a list of objects using the UCA.
 
     Uses the unstable sorting mechanism of the Rust
@@ -37,7 +35,9 @@ def uca_complex_sort(inputs: Sequence[T], method_name: str) -> Sequence[T]:
     """
 
 @overload
-def uca_complex_sort(inputs: Sequence[T], method_name: str, args: tuple[Any] | None) -> Sequence[T]:
+def uca_complex_sort[T](
+    inputs: Sequence[T], method_name: str, args: tuple[Any] | None
+) -> Sequence[T]:
     """Sort a list of objects using the UCA.
 
     Uses the unstable sorting mechanism of the Rust
